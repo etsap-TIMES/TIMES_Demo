@@ -11,7 +11,7 @@ The TIMES source code is in the subfolder Source (licensed under GPLv3).
 You can run the model with GAMS in the Model subfolder, using the following command:  
 >  GAMS rundemo
 
-This demo model is based on the Demo12 model documented in the TIMES documentation available on the ETSAP site [TIMES Documentation Part IV](https://iea-etsap.org/docs/TIMES%20Documentation%20PART%20IV_final.pdf).
+This demo model is based on the Demo12 model documented in the TIMES documentation available on the ETSAP site [TIMES Documentation Part IV](https://iea-etsap.org/docs/TIMES%20Documentation%20PART%20IV_final.pdf)
 and on GitHub [TIMES_Documentation](https://github.com/etsap-TIMES/TIMES_Documentation).
 
 The demo model runs using the [CBC solver](https://github.com/coin-or/Cbc) which is an open-source mixed integer programming 
