@@ -53,6 +53,7 @@
   %VAR%_UPS(R,ALLYEAR,ALLYEAR,P,S,L %SWD%) 		Start-ups
   %VAR%_UPT(R,ALLYEAR,ALLYEAR,P,S,UPT%SWD%)		Start-ups by type
   %VAR%_UDP(R,ALLYEAR,ALLYEAR,P,S,L %SWD%) 		Unit dispatching
+  %VAR%_RLD(R,T,S,ITEM %SWD%)     		 	Residual loads
 
 *=============================================================================*
 * Objective Function Components

@@ -5,12 +5,12 @@
 *=============================================================================
 * Other preprocessing stuff for FLO_SHAR: QA Checks
 *=============================================================================
-* Eliminate redundant / inconsistent shares due to sloppy modelling:
- SET RTPGIG(R,ALLYEAR,P,CG,IO,CG) / EMPTY.EMPTY.EMPTY.EMPTY.EMPTY.EMPTY /;
- SET RTP_CG(R,ALLYEAR,P,CG,IO)    / EMPTY.EMPTY.EMPTY.EMPTY.EMPTY /;
- SET RTP_GRP(R,ALLYEAR,P,CG,IO)   / EMPTY.EMPTY.EMPTY.EMPTY.EMPTY /;
- SET RP_GIC(R,P,CG,IO,C)          / EMPTY.EMPTY.EMPTY.EMPTY.EMPTY /;
- SET RPG_RED(R,P,CG,IO)           / EMPTY.EMPTY.EMPTY.EMPTY /;
+* Eliminate redundant / inconsistent shares due to careless modelling
+ SET RTPGIG(R,ALLYEAR,P,CG,IO,CG) //;
+ SET RTP_CG(R,ALLYEAR,P,CG,IO)    //;
+ SET RTP_GRP(R,ALLYEAR,P,CG,IO)   //;
+ SET RP_GIC(R,P,CG,IO,C)          //;
+ SET RPG_RED(R,P,CG,IO)           //;
 *-----------------------------------------------------------------------------
 * Collect the Groups involved
  OPTION RP_CCG <= FLO_SHAR; PUTGRP=0;
@@ -40,7 +40,7 @@ $     BATINCLUDE pp_qaput.mod PUTOUT PUTGRP 01 'FLO_SHAR conflict: Both FX + LO/
 *-----------------------------------------------------------------------------
 * Eliminate very small FLO_SHAR
 $IF NOT SET SHARETOL $SETLOCAL SHARETOL 9E-5
- FLO_SHAR(R,V,P,C,CG,S,'UP')$((FLO_SHAR(R,V,P,C,CG,S,'UP')$COM_GMAP(R,CG,C) GE 1)$FLO_SHAR(R,V,P,C,CG,S,'UP')) = 0;
+ FLO_SHAR(RTP(R,V,P),C,CG,S(TSL),BD('UP'))$((FLO_SHAR(RTP,C,CG,S,BD)$COM_GMAP(R,CG,C) GE 1)$FLO_SHAR(RTP,C,CG,S,BD)) = 0;
  FLO_SHAR(R,V,P,C,CG,S,BDUPX(BD))$((FLO_SHAR(R,V,P,C,CG,S,BD) LT %SHARETOL%)$FLO_SHAR(R,V,P,C,CG,S,BD)) = EPS;
  FLO_SHAR(R,V,P,C,CG,S,BDLOX(BD))$((ABS(FLO_SHAR(R,V,P,C,CG,S,BD)-1) LT %SHARETOL%)$FLO_SHAR(R,V,P,C,CG,S,BD)) = 1;
 *-----------------------------------------------------------------------------
@@ -60,7 +60,7 @@ $    BATINCLUDE pp_qaput.mod PUTOUT PUTGRP 07 'Inconsistent sum of fixed FLO_SHA
 $IF NOT %SHARELAX%==NO
    LOOP(RP_GIC(R,P,CG,IO,C)$Z, IF(FLO_SHAR(R,V,P,C,CG,'ANNUAL','FX') GT F, Z=0; RTPGIG(R,V,P,CG,IO,C) = YES));
  );
- IF(CARD(RTPGIG), 
+ IF(CARD(RTPGIG),
    LOOP(IO,FLO_SHAR(R,V,P,C,CG,S,BD)$RTPGIG(R,V,P,CG,IO,C) = 0);
    F=CARD(RTPGIG); DISPLAY 'Redundant Veda FLO_SHAR bounds removed:',F);
  OPTION CLEAR=RTP_GRP;
@@ -82,7 +82,7 @@ $     BATINCLUDE pp_qaput.%1 PUTOUT PUTGRP 07 'Defective sum of FX and UP FLO_SH
   OPTION CLEAR=RTP_GRP,CLEAR=RTP_CGC;
   LOOP(IO,LOOP(RTPGIG(R,V,P,CG,'OUT',C)$RP_GIC(R,P,CG,IO,C),RTP_GRP(R,V,P,CG,IO) = YES);
     RTP_CGC(R,V,P,CG,C)$(RP_GIC(R,P,CG,IO,C)$RTP_GRP(R,V,P,CG,IO)) = YES);
-  FLO_SHAR(R,V,P,C,CG,'ANNUAL','FX')$(NOT RTPGIG(R,V,P,CG,'OUT',C)) $= 
+  FLO_SHAR(R,V,P,C,CG,'ANNUAL','FX')$(NOT RTPGIG(R,V,P,CG,'OUT',C)) $=
     FLO_SHAR(R,V,P,C,CG,'ANNUAL','UP')$RTP_CGC(R,V,P,CG,C);
   FLO_SHAR(R,V,P,C,CG,'ANNUAL',BDNEQ)$RTP_CGC(R,V,P,CG,C) = 0;
   OPTION CLEAR=RTP_GRP, CLEAR=RTP_CGC;
@@ -97,13 +97,13 @@ $     BATINCLUDE pp_qaput.%1 PUTOUT PUTGRP 07 'Defective sum of FX and UP FLO_SH
      IF(F GT 1+%SHARETOL%, MY_F = 1;
 $     BATINCLUDE pp_qaput.%1 PUTOUT PUTGRP 07 'Excessive sum of FX and LO FLO_SHAREs in Group'
       PUT QLOG ' SEVERE ERROR  -     R=',%RL%,' P=',%PL%,' V=',V.TL,' CG=',CG.TL,' SUM=',F:0:5;);
-      F = MAX(0,F-1); LOOP((RP_GIC(R,P,CG,IO,C),BDLOX)$Z, IF(FLO_SHAR(R,V,P,C,CG,'ANNUAL',BDLOX) GT F, Z=0; 
+      F = MAX(0,F-1); LOOP((RP_GIC(R,P,CG,IO,C),BDLOX)$Z, IF(FLO_SHAR(R,V,P,C,CG,'ANNUAL',BDLOX) GT F, Z=0;
 $IF NOT %SHARELAX%==NO  RTPGIG(R,V,P,CG,'OUT',C) = YES; IF(MY_F,PUT QLOG ' (Auto-relaxed)';);
    ))));
   OPTION CLEAR=RTP_GRP,CLEAR=RTP_CGC;
   LOOP(IO,LOOP(RTPGIG(R,V,P,CG,'OUT',C)$RP_GIC(R,P,CG,IO,C),RTP_GRP(R,V,P,CG,IO) = YES);
     RTP_CGC(R,V,P,CG,C)$(RP_GIC(R,P,CG,IO,C)$RTP_GRP(R,V,P,CG,IO)) = YES);
-  FLO_SHAR(R,V,P,C,CG,'ANNUAL','FX')$RTP_CGC(R,V,P,CG,C) = 
+  FLO_SHAR(R,V,P,C,CG,'ANNUAL','FX')$RTP_CGC(R,V,P,CG,C) =
     FLO_SHAR(R,V,P,C,CG,'ANNUAL','LO')+FLO_SHAR(R,V,P,C,CG,'ANNUAL','FX')+EPS;
   FLO_SHAR(R,V,P,C,CG,'ANNUAL',BD)$((BDNEQ(BD)+RTPGIG(R,V,P,CG,'OUT',C))$RTP_CGC(R,V,P,CG,C)) = 0;
   OPTION CLEAR=RP_GIC, CLEAR=RTP_CGC, CLEAR=RTPGIG, CLEAR=RTP_CG, CLEAR=RTP_GRP;

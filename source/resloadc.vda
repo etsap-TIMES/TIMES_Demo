@@ -60,19 +60,13 @@ $LABEL COEF
   IF(RLDBD('FX'),FLO_BND(RTP(R,T,P),C,S,'LO')$(RPC_PG(R,P,C)$NRG_TMAP(R,'ELC',C)$PRC_TS(R,P,S)$GR_THBND(RTP,'FX')) =
      MAX(FLO_BND(RTP,C,S,'LO'),GR_THBND(RTP,'FX')*PRC_CAPACT(R,P)*G_YRFR(R,S)));
   OPTION GR_THMIN < GR_THBND;
-$EXIT
+$ EXIT
 *-----------------------------------------------------------------------
-$LABEL EQUA
-* Variables and equations
-  POSITIVE VARIABLE %VAR%_RLD(R,T,S,ITEM%SWD%);
+$ LABEL EQUA
+* Remove cycling if lower bounds are per nominal capacity
   RPS_UPS(R,P,S)$SUM(RTP(R,V,P)$GR_THBND(RTP,'LO'),1)=NO;
-  EQUATIONS
-   %EQ%_RL_LOAD(R,T,S%SWTD%)
-   %EQ%_RL_NDIS(R,T,S,ITEM%SWTD%)
-   %EQ%_RL_STCAP(R,T,S%SWTD%)
-   %EQ%_RL_PKCAP(R,T,S%SWTD%)
-   %EQ%_RL_THMIN(R,T,S,BD%SWTD%)
-  ;
+* Set bounds
+  %VAS%_RLD.LO(R,T,S,'RL-DISP'%SOW%)=-INF;
 *-----------------------------------------------------------------------
 * Define the residual load as the sum of dispatchable production plus net storage output
   %EQ%_RL_LOAD(GR_RLDC(%R_T%),RTS(S)%SWT%)$FINEST(R,S)..
@@ -158,7 +152,3 @@ $        BATINCLUDE %cal_red% C COM TS P T
         (SUM(BD$BDNEQ(BD),GR_THBND(R,T,P,BD))+SUM(TS_ANN(S,SL),ACT_UPS(R,V,P,SL,'FX'))$(NOT GR_THMIN(R,T,P))) *
         (SUM(MODLYEAR(K)$(COEF_CPT(R,K,T,P)$(DIAG(V,K)>=1$PRC_VINT(R,P))),COEF_CPT(R,MODLYEAR,T,P) *
           (%VARM%_NCAP(R,K,P %SWS%)$TT(K)+NCAP_PASTI(R,K,P)$PYR(K)%RCAPSBM%))%UPSCAPS%))))$BDLOX(BDNEQ);
-*-----------------------------------------------
-* Set bounds
-$IFI %VAR%==Z $SET VAR VAS
-  %VAR%_RLD.LO(R,T,S,'RL-DISP'%SOW%)=-INF;

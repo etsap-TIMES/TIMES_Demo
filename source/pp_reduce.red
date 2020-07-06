@@ -2,9 +2,9 @@
 * Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
 * under the GNU General Public License v3.0 (see file LICENSE.txt).
-*-----------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------
 * Reduction of model size
-*-----------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------
 * Set for FLO_FUNC/FLO_SUM based substitution
  SET RPCG_PTRAN(R,P,COM,COM,CG,CG) //;
  SET RP_CGG(REG,PRC,C,CG,CG);
@@ -181,3 +181,6 @@ $LABEL REDDONE
   LOOP(FS_EMIS(R,P,CG,C,COM), RPCC_FFUNC(R,P,CG,COM) = YES);
   OPTION CLEAR=FSCK;
   PRC_TS2(PRC_TS(RP_PGACT(RP_STD),S)) = YES;
+
+* Remove timeslices turned off if DYNTS enabled
+$IF NOT %RTS%==S $BATINCLUDE dynslite.vda REDUCE

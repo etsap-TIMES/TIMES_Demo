@@ -109,3 +109,6 @@ $IFI %POWERFLO%==YES $include powerflo.vda
   COM_BNDPRD(R,T,C,ANNUAL(S),'N')$(NOT COM_BNDPRD(R,T,C,S,'N')) $=COM_BNDPRD(R,'0',C,S,'N');
   COM_BNDPRD(RTCS_VARC(RTC,S),BDLOX(BD))$((NOT COM_BNDPRD(RTC,S,BD))$COM_BNDPRD(RTC,'ANNUAL','N')) =
     (EPS-INF$BDNEQ(BD))$(-SIGN(COM_BNDPRD(RTC,'ANNUAL','N'))=1$BDNEQ(BD));
+*-----------------------------------------------------------------------------
+* Remove timeslices turned off if DYNTS enabled
+$IF NOT %RTS%==S $BATINCLUDE dynslite.vda PRELEV

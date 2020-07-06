@@ -141,3 +141,5 @@ $LABEL DONEFUNC
 *-----------------------------------------------------------------------------
 * Prepare dynamic process bound equations
 $ BATINCLUDE equcrtp.vda PPM_EXT
+* Remove timeslices turned off if DYNTS enabled
+$IF NOT %RTS%==S $BATINCLUDE dynslite.vda POSTLEV
