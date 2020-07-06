@@ -13,7 +13,7 @@
 *  - TS-based bounds
 *    - individual TS vs at/above limit via s-index
 *-----------------------------------------------------------------------------
-$IF %2==0 $CLEAR %VAR%_UPS %VAR%_UDP %VAR%_UPT %VAR%_SCAP
+$ IF %2==0 $CLEAR %VAR%_IRE %VAR%_UPS %VAR%_UDP %VAR%_UPT %VAR%_SCAP
 
 *-----------------------------------------------------------------------------
 * elastic demands step curve
@@ -40,10 +40,10 @@ $   BATINCLUDE bnd_stg.%1 SOUT STGOUT
 *-----------------------------------------------------------------------------
 * limit on total installation of new capacity
 *-----------------------------------------------------------------------------
-$IF %STAGES% == YES $SETLOCAL SWT '$SW_T(T%SOW%)'
-*V0.5c prevent new investment if turned off explicitly by the user
-    NCAP_BND(RTP_OFF(R,T,P),'UP') = EPS;
-    NCAP_BND(R,T,P,'LO')$(NCAP_BND(R,T,P,'UP')$NCAP_BND(R,T,P,'LO')) = MIN(NCAP_BND(R,T,P,'UP'),NCAP_BND(R,T,P,'LO'));
+$ IF %STAGES%==YES  $SETLOCAL SWT '$SW_T(T%SOW%)'
+* prevent new investment if turned off explicitly by the user
+    NCAP_BND(RTP_OFF,'UP') = EPS;
+    NCAP_BND(RTP(R,T,P),'LO')$(NCAP_BND(RTP,'UP')$NCAP_BND(RTP,'LO')) = SMIN(BDNEQ,NCAP_BND(RTP,BDNEQ));
 $   BATINCLUDE bnd_set.%1 %VAR%_NCAP 'R,T,P' NCAP_BND '%R_T%,P' $(RP(R,P)%SWT%)
 
 *-----------------------------------------------------------------------------
@@ -82,4 +82,6 @@ $IF %MACRO%==YES $GOTO MACRO
 *-----------------------------------------------------------------------------
 $LABEL MACRO
 $ IF %MACRO% == YES  $BATINCLUDE bnd_macro.tm
-
+*-----------------------------------------------------------------------------
+* Fix timeslices turned off in projected periods
+$IF NOT %RTS%==S $BATINCLUDE dynslite.vda BOUNDS
