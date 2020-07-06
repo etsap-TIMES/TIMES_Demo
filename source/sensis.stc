@@ -32,5 +32,5 @@ $IF %CLI%==YES CM_MAXC(ALLYEAR,ITEM) $= S_CM_MAXC(ALLYEAR,ITEM,'1',SOW);
   );
 *------------------------------------------------------------------------------
  IF(SW_PHASE=2,SPAR_UCSL(SOW,UC_N,U2,U3,U4)=0);
- IF(CARD(REG_FIXT)=0,EQ_OBJ.M=0; OPTION SOLVEOPT=REPLACE);
+ IF(CARD(REG_FIXT)=0,EQ_OBJ.M$(%MODEL_NAME%.SOLVEOPT<>1)=0; OPTION SOLVEOPT=REPLACE);
 $ BATINCLUDE clearsol.stp $EQ_OBJ.M

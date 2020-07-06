@@ -43,14 +43,6 @@
   EQUATIONS
 *-----------------------------------------------------------------------------
 
-* Group-wise MAX flow equation
-  %EQ%G_UCMAX(UC_N,ALL_R,ITEM,C,NAME%SWD%) 'Maximum group-wise flow (G)'
-
-* Summing equation for regional MAX flows (only if a region-wise RHS is specified)
-  %EQ%G_UCSUMAX(UC_N%SWD%) 'Maximum group-wise flow (G)'
-;
-*-----------------------------------------------------------------------------
-
    %EQ%G_UCMAX(UC_GMAX(UC_N,ALL_R,ITEM,C,NAME)%SOW%) ..
 
 * Select variable to be maximized (remove SUM if IMPEXP group allowed)
@@ -58,7 +50,7 @@
       %VAR%_UC(UC_N%SOW%)$(NOT UC_GMAXR(ALL_R,UC_N)) +
       SUM(R(ALL_R),%VAR%_UCR(UC_N,R%SOW%)$UC_GMAXR(ALL_R,UC_N))
 
-   =G= 
+   =G=
 
 $IF %STAGES%==YES $SETLOCAL ORGSOW '%SOW%' SET SWTD ",SW_TSW(SOW,T,W)" SET SOW ,W
 
@@ -129,7 +121,7 @@ $           BATINCLUDE %cal_red% COM COM1 S P T
 ;
 $IF %STAGES%==YES $SET SOW %ORGSOW%
 *-----------------------------------------------------------------------------
-* Sum regional maximums to global (change R to ALL_R if IMPEXP group allowed)
+* Sum regional maximums to global (change R to ALL_R if IMPEXP allowed)
    %EQ%G_UCSUMAX(UC_N%SOW%)$SUM(UC_GMAXR(ALL_R,UC_N),1) ..
 
     %VAR%_UC(UC_N%SOW%)  =G=  SUM(UC_GMAXR(R,UC_N),%VAR%_UCR(UC_N,R%SOW%));
