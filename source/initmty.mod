@@ -89,7 +89,7 @@ $ONEMPTY
 *  SET TS(ALL_TS)                     'Time slices of the year               //;
       ALIAS(ALL_TS,TS,S,SL,S2);
   SET TS_OFF(REG,TS,BOHYEAR,EOHYEAR)  'Timeslices turned off';
-  SET TS_GROUP(ALL_REG,TSLVL,ALL_TS)  'Timeslice Level assignment'           //;
+  SET TS_GROUP(ALL_REG,TSLVL,TS)      'Timeslice Level assignment'           //;
   SET TS_MAP(ALL_REG,ALL_TS,ALL_TS)   'Timeslice hierarchy tree: node+below' //;
   SET MILESTONYR(ALLYEAR)             'Projection years for which model to be run' //;
       ALIAS(MILESTONYR,T,TT);
@@ -677,8 +677,8 @@ $ SETGLOBAL SYSPREFIX '' SETGLOBAL PRF FILE=1
 $IFI %OBJ%==STD ALTOBJ=0;
 $IFI %OBJ%==ALT ALTOBJ=2;
 $IFI %OBJ%==LIN ALTOBJ=3;
-$IFI %MACRO%==YES IF(ALTOBJ>1, ABORT 'MACRO Cannot be used with Alternative Objective'); ALTOBJ=0);
-$IFI %VALIDATE%==YES IF(ALTOBJ>1, ABORT 'Cannot use VALIDATE with Alternative Objective'); ALTOBJ=0);
+$IFI %MACRO%==YES IF(ALTOBJ>1,ABORT 'MACRO Cannot be used with Alternative Objective');
+$IFI %VALIDATE%==YES IF(ALTOBJ>1,ABORT 'VALIDATE cannot be used with Alternative Objective'); ALTOBJ=0;
 $SETGLOBAL CTST ''
 $IFI %OBJ%==MOD $SETGLOBAL OBLONG YES
 $IFI %OBJ%==ALT $SETGLOBAL CTST **EPS
@@ -719,6 +719,7 @@ $SETGLOBAL EXTEND ''
 * Add recognized extensions if defined
 $IFI '%MACRO%'==CSA $SETGLOBAL EXTEND '%EXTEND% MSA'
 $IFI '%MACRO%'==MSA $SETGLOBAL EXTEND '%EXTEND% MSA'
+$IFI '%MACRO%'==MLF $SETGLOBAL EXTEND '%EXTEND% MLF'
 $IFI '%ETL%' == YES $SETGLOBAL EXTEND '%EXTEND% ETL'
 $IFI '%CLI%' == YES $SETGLOBAL EXTEND '%EXTEND% CLI'
 $IFI '%DSC%' == YES $SETGLOBAL EXTEND '%EXTEND% DSC'
@@ -748,7 +749,7 @@ $ IF NOT %G2X6%==YES $GOTO RUN
 $ IF NOT SET RUN_NAME $SETNAMES %SYSTEM.INCPARENT% . RUN_NAME .
 $ IF NOT EXIST %RUN_NAME%~data.gdx $GOTO RUN
 $ hiddencall gdxdump %RUN_NAME%~data.gdx NODATA > _dd_.dmp
-$ hiddencall sed "/\(^\|(\*) \)Alias/{N;d;}; /^\([^$].*$\|$\)/d; s/\$LOAD.. /\$LOADR /" _dd_.dmp > _dd_.dd
+$ hiddencall sed "/\(^\|(\*) \)Alias/{N;d;}; /^\([^$].*$\|$\)/d;" _dd_.dmp > _dd_.dd
 $ INCLUDE _dd_.dd
 $ hiddencall rm -f _dd_.dmp
 $ TITLE %SYSTEM.TITLE%#
