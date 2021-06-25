@@ -18,5 +18,5 @@ If the CBC solver is preferred instead, one can use the following:
 > gams rundemo LP=CBC
 
 Draft documentation for the TIMES MLF formulation:
-https://github.com/etsap-TIMES/TIMES_Documentation/blob/master/User_Notes/TIMES-MLF-Note.pdf
+https://github.com/etsap-TIMES/TIMES_Documentation/blob/master/User_Notes/TIMES-Macro-MLF-Note.pdf
 -----------------------------------------------------------------------
