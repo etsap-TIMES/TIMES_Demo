@@ -1,7 +1,7 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=============================================================================*
 * MOD_EQUA.MOD lists all the equations for each of the MODEL instances        *
 *  a MODEL / <list of equations> / block will appear for each model supported *
@@ -136,6 +136,7 @@ $IF %TIMESED%==YES  %EQ%L_COMCES
 * Time-slice storage
     %EQ%_STGTSS
     %EQ%_STSBAL
+    EQ_STSLEV
 
 * Bounds on in/output flows of storage process
     %EQ%G_STGIN
@@ -208,7 +209,7 @@ $LABEL UCDONE
 $IF DEFINED DAM_COST
 $IF NOT %DAMAGE%==NO  %EQ%_DAMAGE, %EQ%_OBJDAM
 
-$IF DEFINED PRC_RCAP  %EQ%_DSCRET, %EQ%_CUMRET, %EQ%L_SCAP, %EQ%L_REFIT
+$IF DEFINED VNRET     %EQ%_DSCRET, %EQ%_CUMRET, %EQ%L_SCAP, %EQ%L_REFIT
 $IFI %SPINES%==YES    %EQ%_OBW1
 
 * [AL] Commented out the end of MODEL statement - now in maindrvx.mod

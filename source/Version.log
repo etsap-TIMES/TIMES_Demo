@@ -2301,3 +2301,402 @@ rpt_ext.mlf   : (1)
 equ_ext.mlf   : (1)
 prep_ext.mlf  : (1)
 calibase.mlf  : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.1
+-----------------------------------------------------------------------------------------
+Date: 9-Jan-2021 [AL]: Maintenance release
+1) Allow back injection from NST storage to grid
+2) Support independent AFC equations for storage
+3) Small improvements and cleanup
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.1
+ppmain.mod    : (1)
+maplists.def  : (3)
+pp_qack.mod   : (3)
+eqstgtss.mod  : (1)
+eqstgaux.mod  : (1)
+eqcaflac.vda  : (2)
+solsetv.v3    : (3)
+times2veda.vdd: (3)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.2
+-----------------------------------------------------------------------------------------
+Date: 15-Feb-2021 [AL]: Maintenance release
+1) Fixed GDX load issues with GAMS v342
+2) Fixed rare issue with PASTyear beyond EOH
+3) Added reporting of ambiguous marginals of multi-region UC
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.2
+initmty.mod   : (1)
+setglobs.mod  : (1)
+ppmain.mod    : (2)
+rptmisc.rpt   : (3)
+ucbet.vda     : (1)
+
+Added file:
+gdxfilter.gms : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.3
+-----------------------------------------------------------------------------------------
+Date: 1-Apr-2021 [AL]: Minor release
+1) Fixed bug related to dynamic (t,t+1) type UCs under stochastic mode
+2) Added support for non-vintaged FLO_FUNC for vintaged processes
+3) Added new attribute NCAP_ISPCT(r,y,p) for proportional investment subsidy
+4) Added support for dynamic commodity PRD/NET bounds with UC_DYNBND
+5) Cosmetic fixes e.g. for backwards compatibility
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.3
+initmty.mod   : (3)
+setglobs.gms  : (5)
+ppmain.mod    : (4)
+preppm.mod    : (3)
+prepparm.gms  : (3)
+coef_obj.mod  : (3)
+coef_shp.mod  : (2)
+equ_ext.vda   : (4)
+equcrtp.vda   : (4)
+bnd_ucv.mod   : (1)
+bnd_ucw.mod   : (1)
+mod_ext.vda   : (4)
+prepret.dsc   : (5)
+initmty.stc   : (1)
+stages.stc    : (1)
+solsetv.v3    : (5)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.4
+-----------------------------------------------------------------------------------------
+Date: 1-May-2021 [AL]: Maintenance release
+1) Fixed bug introduced in v4.5.3, related to dynamic bound equations
+2) Extended RPT_OPT('CAP','9') to apply to PAR_PASTI as well.
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.4
+equcrtp.vda   : (1)
+solve.stp     : (1)
+rptmisc.rpt   : (2)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.5
+-----------------------------------------------------------------------------------------
+Date: 15-Jun-2021 [AL]: Maintenance release
+1) Fix unwanted elimination of NST auxiliary storage flows
+2) Support reversed storage flow conversion in AFC equations
+3) Improved QA for inconsistent CAP_BND
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.5
+ppmain.mod    : (1),(3)
+eqcaflac.vda  : (2)
+bndmain.mod   : (3)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.6
+-----------------------------------------------------------------------------------------
+Date: 24-Jun-2021 [AL]: Maintenance release
+1) Fixed compatibility issues with GAMS v34.2 and above
+2) Fixed reporting of storage flows in the special STS+STK case
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.6
+setglobs.gms  : (1)
+gdxfilter.gms : (1)
+rptmisc.rpt   : (2)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.8
+-----------------------------------------------------------------------------------------
+Date: 29-Sep-2021 [AL]: Minor release - storage improvements
+1) Implemented a more flexible STS variant - activate by $SET STSFLX YES (for now)
+2) Improved accounting of equilibrium losses for timeslice storage
+3) Improved consistency in NCAP_AFC handling for multi-commodity storage
+4) Fixed bug introduced by typo in v455 related to CAP_BND(LO)
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.8
+ppmain.mod    : (1)
+mod_vars.mod  : (1)
+eqdeclr.mod   : (1)
+eqcapact.mod  : (1)
+eqstgtss.mod  : (1),(2)
+bndmain.mod   : (1),(4)
+bnd_stg.mod   : (1)
+mod_equa.mod  : (1)
+rptmisc.rpt   : (1)
+ppm_ext.vda   : (1),(3)
+coef_ext.vda  : (1)
+eqcaflac.vda  : (3)
+eqashar.vda   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.5.9
+-----------------------------------------------------------------------------------------
+Date: 6-Nov-2021 [AL]: Maintenance release
+1) Improved reserve provision bounds under the ABS extension
+2) Eliminated unnecessary storage output share constraints for STS
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.5.9
+clearsol.stp  : (1)
+eqashar.vda   : (2)
+initmty.abs   : (1)
+coef_ext.abs  : (1)
+mod_vars.abs  : (1)
+equ_ext.abs   : (1)
+mod_ext.abs   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.0
+-----------------------------------------------------------------------------------------
+Date: 20-Jan-2022 [AL]: Maintenance release
+1) Added support for shaping NCAP_COM flows with FLO_FUNCX
+2) Improved performance and QA for FLO_FUNCX
+3) Cosmetic fixes
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.0
+initmty.mod   : (1),(3)
+setglobs.gms  : (1),(3)
+preppm.mod    : (2)
+coef_nio.mod  : (3)
+coef_shp.mod  : (1),(2)
+cal_cap.mod   : (1)
+cal_caps.mod  : (1)
+rpt_objc.rpt  : (1)
+rptmisc.rpt   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.1
+-----------------------------------------------------------------------------------------
+Date: 23-Mar-2022 [AL]: Maintenance release
+1) Some performance improvement for large models
+2) Cosmetic fixes
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.1
+ppmain.mod    : (1),(2)
+timslice.mod  : (1)
+preppm.mod    : (1)
+pp_lvlus.mod  : (1),(2)
+pp_lvlpk.mod  : (1)
+pp_reduce.red : (1)
+ppm_ext.vda   : (1)
+eqpeak.mod    : (1)
+rptmisc.rpt   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.2
+-----------------------------------------------------------------------------------------
+Date: 22-May-2022 [AL]: Minor release
+1) Added option for including input flows in power level reporting per MVU's wish
+2) Cosmetic fix
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.2
+coef_nio.mod  : (2)
+rptmisc.rpt   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.3
+-----------------------------------------------------------------------------------------
+Date: 7-Jul-2022 [AL]: Minor release
+1) Added new attribute G_RFRIR for defining risk-free reference rate for hurdle rates
+2) Fixed bug that allowed some early retirements revoked when using multi-stage stochastics and early retirements
+3) Cosmetic fixes
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.3
+initmty.mod   : (1)
+setglobs.gms  : (1)
+preppm.mod    : (1)
+coef_obj.mod  : (1)
+eqobjinv.mod  : (1)
+pp_qack.mod   : (3)
+prepret.dsc   : (2)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.4
+-----------------------------------------------------------------------------------------
+Date: 14-Jul-2022 [AL]: Minor release
+1) Fixed small reporting bugs related to retrofit processes
+2) Improvements in retrofit and lifetime extension implementation
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.4
+setglobs.gms  : (1)
+ppmain.mod    : (2)
+rpt_obj.rpt   : (2)
+rpt_objc.rpt  : (1)
+rptmisc.rpt   : (1)
+eqobsalv.mod  : (2)
+prepret.dsc   : (2)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.5
+-----------------------------------------------------------------------------------------
+Date: 28-Aug-2022 [AL]: Maintenance release
+1) Fixed reporting bug related to retirements when filtering off small capacity values
+2) Cosmetic fixes
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.5
+setglobs.gms  : (2)
+pp_reduce.red : (2)
+rptmisc.rpt   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.6
+-----------------------------------------------------------------------------------------
+Date: 9-Oct-2022 [AL]: Minor release
+1) Added new input attribute NCAP_AFSX for shaping seasonal availability factors
+2) Improved a few QA checks
+3) Cosmetic fixes
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.6
+initmty.mod   : (1)
+setglobs.gms  : (1),(3)
+ppmain.mod    : (2),(3)
+preppm.mod    : (1)
+pp_lvlbr.mod  : (3)
+pp_reduce.red : (3)
+pp_chp.mod    : (2)
+coef_cpt.mod  : (1)
+pp_shapr.mod  : (1)
+mod_vars.mod  : (3)
+eqobj.mod     : (3)
+eqobjfix.mod  : (3)
+eqobsalv.mod  : (3)
+cal_caps.mod  : (3)
+mod_equa.mod  : (3)
+pp_qack.mod   : (2)
+solve.stp     : (3)
+rpt_obj.rpt   : (3)
+cost_ann.rpt  : (3)
+rptmisc.rpt   : (3)
+solputta.ans  : (3)
+solsetv.v3    : (3)
+rptmain.stc   : (3)
+prep_ext.vda  : (1)
+ppm_ext.vda   : (1)
+coef_ext.vda  : (3)
+eqobjann.tm   : (3)
+eqobjcst.tm   : (3)
+initmty.msa   : (3)
+rpt_ext.msa   : (3)
+solve.msa     : (3)
+prep_ext.mlf  : (3)
+calibase.mlf  : (3)
+eqpk_ect.ier  : (3)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.7
+-----------------------------------------------------------------------------------------
+Date: 19-Nov-2022 [AL]: Minor release
+1) Completed S_COM_TAX preprocessing that had been unfinalized
+2) Changed forced retrofits for residual capacity to obey RESID trajectory
+3) Cosmetic fixes, e.g. set TOLPROJ tolerance, restore MCA compatibility
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.7
+initmty.mod   : (1)
+setglobs.gms  : (1)
+ppmain.mod    : (1)
+curex.gms     : (1)
+gdxfilter.gms : (3)
+solve.mod     : (3)
+initmty.vda   : (1)
+prep_ext.stc  : (1)
+prepret.dsc   : (2)
+solsetv.v3    : (1)
+times2veda.vdd: (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.8
+-----------------------------------------------------------------------------------------
+Date: 30-Dec-2022 [AL]: Minor release
+1) Added exception support for capacities bounded by REG_BDNCAP
+2) Finished off forced retrofits for residual capacity to obey RESID trajectory
+3) Cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.8
+units.def     : (3)
+spoint.mod    : (1)
+init_ext.vda  : (1)
+solve.stp     : (3)
+rptlite.rpt   : (3)
+cost_ann.rpt  : (3)
+prepret.dsc   : (2)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.6.9
+-----------------------------------------------------------------------------------------
+Date: 23-Jan-2023 [AL]: Minor release
+1) Improved effective levelization of various process transformation parameters
+2) Streamlined performance of reduced model generation
+3) Added support for emissions set directly on CHP activity
+4) Cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.6.9
+initmty.mod   : (4)
+setglobs.gms  : (1)
+ppmain.mod    : (1),(3)
+pp_lvlfs.mod  : (1)
+pp_lvlus.mod  : (4)
+pp_chp.mod    : (3)
+pp_reduce.red : (1)
+coef_ptr.mod  : (1),(2)
+coef_shp.mod  : (2)
+eqobjinv.mod  : (4)
+eqptrans.mod  : (1)
+pp_qack.mod   : (1)
+cal_red.red   : (2)
+sol_flo.red   : (2)
+rptmisc.rpt   : (4)
+initmty.vda   : (2)
+init_ext.vda  : (2)
+prep_ext.vda  : (1)
+pp_prelv.vda  : (1),(2),(3)
+ppm_ext.vda   : (2)
+pp_actef.vda  : (1)
+coef_ext.vda  : (2)
+initmty.stc   : (4)
+stages.stc    : (2)
+sensis.stc    : (2)
+solputta.ans  : (4)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.7.0
+-----------------------------------------------------------------------------------------
+Date: 25-Feb-2023 [AL]: Major release
+1) Fixed bug related to auxiliary STS storage flows introduced in v4.6.9
+2) Fixed backwards compatibility workaround using COM_TYPEs as commodities not in topology
+3) Added experimental extension implementing logit market share mechanism
+4) Fixed loose ends in the levelization enhancement in v4.6.9
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.7.0
+initmty.mod   : (3)
+ppmain.mod    : (4)
+pp_lvlfc.mod  : (4)
+coef_ptr.mod  : (1)
+sol_flo.red   : (4)
+initmty.vda   : (3)
+dynslite.vda  : (4)
+pp_actef.vda  : (2)
+pp_prelv.vda  : (4)
+mod_ext.vda   : (3)
+mod_vars.tm   : (3)
+
+Added files...: (3)
+ppm_ext.ecb
+equ_ext.ecb
+rpt_ext.ecb

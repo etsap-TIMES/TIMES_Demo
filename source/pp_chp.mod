@@ -1,21 +1,19 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *==============================================================================*
 * PP_CHP.MOD derives the FLO_SUM/SHARs/ACTFLOs for modeling CHPs from the inputs
 *   Upon completion all attributes are in place for handling by regular code
 *==============================================================================*
-  SET CHP(R,P);
   SET CHP_ELC(R,P,C);
-  CHP(RP(R,P)) $= PRC_MAP(R,'CHP',P);
 
 * Back-pressure point should correspond to the maximum HEAT/POWER ratio
   NCAP_CHPR(RTP,BDNEQ)$NCAP_CHPR(RTP,'FX') = 0;
   COEF_RTP(RTP(R,V,P))$CHP(R,P) = MAX(0,SMAX(BD,NCAP_CHPR(RTP,BD)));
 *-----------------------------------------------------------------------------
 * calculate the slope: (CDEF/BPEF*(1+CHPR)-1)/CHPR
-  NCAP_CEH(RTP)$((COEF_RTP(RTP)>0)$NCAP_CDME(RTP)) = (NCAP_CDME(RTP)/NCAP_BPME(RTP)*(1+COEF_RTP(RTP))-1)/COEF_RTP(RTP);
+  NCAP_CEH(RTP)$((COEF_RTP(RTP)>0)$NCAP_CDME(RTP)) = MAX(.001,(NCAP_CDME(RTP)/NCAP_BPME(RTP)*(1+COEF_RTP(RTP))-1)/COEF_RTP(RTP));
 * EQ_PTRANS control - overall efficiency
   FLO_SUM(RTP(R,V,P),C,COM,C,ANNUAL)$(RPC_SPG(R,P,COM)$RPC_PG(R,P,C)$NRG_TMAP(R,'ELC',C)) $= NCAP_CDME(RTP);
 *-----------------------------------------------------------------------------
@@ -33,7 +31,7 @@
    NCAP_BPME(RVP) = MIN(0,SMIN(BD$NCAP_CHPR(RVP,BD),NCAP_CHPR(RVP,BD))*((NCAP_CEH(RVP)+1)$NCAP_CEH(RVP)-1));
    NCAP_CEH(RVP)$(NCAP_CEH(RVP)<0) = -NCAP_CEH(RVP);
 * If slope is different from 1, we should always have a maximum heat share:
-   NCAP_CHPR(RVP,'FX')$((ABS(NCAP_CEH(RVP)-1)>.01)$(NOT NCAP_CHPR(RVP,'UP'))) = COEF_RTP(RVP);
+   NCAP_CHPR(RVP,'FX')$((ABS(NCAP_CEH(RVP)-1)>.01)$(NOT NCAP_CHPR(RVP,'UP'))) = COEF_RTP(RVP)+EPS;
   );
 *-----------------------------------------------------------------------------
 * Calculate ACTFLOs for pg and elc
@@ -57,10 +55,12 @@
   );
 * Heat share
   FLO_SHAR(RTP(R,V,P),C,CG,S,BD)$(PRC_TS(R,P,S)$RP_PG(R,P,CG)$RP_GRP(R,P,C)) = NCAP_CHPR(RTP,BD)/(NCAP_CHPR(RTP,BD)+1);
+* ACT emission
+  FLO_SUM(RVP,COM,C,COM,S)$((NCAP_BPME(RVP)$NCAP_CEH(RVP)$PRC_ACTFLO(RVP,C)<0)$FLO_EFF(RVP,COM,C,S)) = FLO_EFF(RVP,COM,C,S)/PRC_ACTFLO(RVP,C);
 *-----------------------------------------------------------------------------
 * Adjust PKCNT
   LOOP(RPC_PKC(CHP_ELC(R,P,C)),NCAP_PKCNT(RVP(R,V,P),S)$COM_TS(R,C,S)=NCAP_PKCNT(RVP,S)/MAX(1,PRC_ACTFLO(RVP,C)));
-  RVP(RVP)$(NCAP_CEH(RVP)+NCAP_CHPR(RVP,'FX')+NCAP_CHPR(RVP,'LO')>0) = NO;
+  RVP(RVP)$(NCAP_CEH(RVP)+1$NCAP_CHPR(RVP,'FX')+NCAP_CHPR(RVP,'LO')>0) = NO;
   PUTGRP = 0;
   LOOP(RVP(R,V,P)$(T(V)+PRC_VINT(R,P)),
 $    BATINCLUDE pp_qaput.mod PUTOUT PUTGRP 01 'CHP process with zero CEH but only upper bound on CHPR.'

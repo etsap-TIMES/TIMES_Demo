@@ -1,7 +1,7 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=============================================================================*
 * EQDECLR.MOD declarations for actual equations
 *   %1 - mod or v# for the source code to be used
@@ -120,7 +120,8 @@ $LABEL MACROBJ BATINCLUDE eqdeclr.tm
 
 * Time-slice storage equation
     %EQ%_STGTSS(R,ALLYEAR,ALLYEAR,P,S %SWTD%)		'Time-slice storage equation'
-    %EQ%_STSBAL(R,ALLYEAR,ALLYEAR,P,S %SWTD%)		'Time-slice storage balancer'
+    %EQ%_STSBAL(R,ALLYEAR,ALLYEAR,P,TSL,S,L%SWTD%)   	'Time-slice storage balancer'
+    EQ_STSLEV(R,ALLYEAR,ALLYEAR,P,TSLVL,S,ALLSOW)    	'Time-slice storage levelizer'
 
 * Bound on storage flow
     %EQ%G_STGIN(R,ALLYEAR,P,C,S %SWTD%) 		'Bound on input flow of storage (=G=)'

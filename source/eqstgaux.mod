@@ -1,7 +1,7 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=============================================================================*
 * EQSTGAUX auxiliary commodities for storage
 *=============================================================================*
@@ -36,7 +36,7 @@
         (%VAR%_SIN(R,V,T,P,COM,TS %SOW%) * COEF_PTRAN(R,V,P,CG,COM,C,TS))$((NOT PRC_MAP(R,'NST',P))+PRC_NSTTS(R,P,TS)) *
          RS_FR(R,S,TS) * (1+RTCS_FR(R,T,C,S,TS))) +
     SUM((COM_GMAP(R,CG,C),TOP(RPC_STG(R,P,COM),'OUT'),RPCS_VAR(R,P,COM,TS))$COEF_PTRAN(R,V,P,CG,C,COM,S),
-        (%VAR%_SOUT(R,V,T,P,COM,TS %SOW%) * (1/COEF_PTRAN(R,V,P,CG,C,COM,S)))$(NOT PRC_NSTTS(R,P,TS)) *
+        (%VAR%_SOUT(R,V,T,P,COM,TS %SOW%) * (1/COEF_PTRAN(R,V,P,CG,C,COM,S)))$(PRC_NSTTS(R,P,TS) EQV RPC_STGN(R,P,COM,'OUT')) *
          RS_FR(R,S,TS) * (1+RTCS_FR(R,T,C,S,TS)))
 
 ;

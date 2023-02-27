@@ -1,7 +1,7 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=============================================================================*
 * CAL_CAPS the code for capacity dependent commodity flows regardless of IO
 *   %1 - Milestone year
@@ -23,9 +23,7 @@
       SUM((RTP_CPTYR(R,V,%1,P),IO)$NCAP_COM(R,V,P,C,IO),
         COEF_CPT(R,V,%1,P) * NCAP_COM(R,V,P,C,IO) * G_YRFR(R,S) *
         (%VARV%_NCAP%4(R,V,P %SWS%)$T(V) + NCAP_PASTI(R,V,P)
-$IF DEFINED PRC_RCAP -SUM(VNRET(V,MODLYEAR(%1)),%VARM%_SCAP%4(R,V,%1,P%SWS%))$PRC_RCAP(R,P)
-        ) * SUM(RPCS_VAR(R,P,C,%3), RS_FR(R,TS,S) * %2) *
-        (1 + (MAX(0, E(%1)+1-MAX(B(V)+NCAP_ILED(R,V,P)+NCAP_CLAG(R,V,P,C,IO),B(%1))) /
-              MAX(.1,E(%1)+1-MAX(B(V)+NCAP_ILED(R,V,P),B(%1)))-1)$NCAP_CLAG(R,V,P,C,IO)))
+$IF DEFINED VNRET -SUM(VNRET(V,MODLYEAR(%1)),%VARM%_SCAP%4(R,V,%1,P%SWS%))$PRC_RCAP(R,P)
+        ) * SUM(RPCS_VAR(R,P,C,%3), RS_FR(R,TS,S) * %2) * (1+COEF_CIO(R,V,%1,P,C,IO)))
      )
 *$OFFLISTING

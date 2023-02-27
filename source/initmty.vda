@@ -1,7 +1,7 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=============================================================================*
 * INITMTY.VDA has all the EMPTY declarations for system & user data           *
 *=============================================================================*
@@ -12,7 +12,6 @@ $ SETGLOBAL VDA YES
 * Process transformation parameters:
   PARAMETERS
   VDA_FLOP(REG,ALLYEAR,PRC,CG,S)     'General process transformation parameter'
-  ACT_FLO(REG,ALLYEAR,PRC,CG,S)      'General process transformation parameter'//
   VDA_EMCB(REG,ALLYEAR,COM,COM)      'Combustion emission parameter (aka EMI_comb)' //
   VDA_CEH(REG,ALLYEAR,PRC)           'The slope of pass-out turbine (alias NCAP_CEH)' //
   FLO_EMIS(REG,ALLYEAR,PRC,CG,COM,S) 'General process emission parameter' //
@@ -26,8 +25,8 @@ $ SET MX ,SEASON, WEEKLY, DAYNITE
   NCAP_AFC(REG,ALLYEAR,PRC,CG,STL)   'Availability of capacity for commodity group CG'
   NCAP_AFCS(REG,ALLYEAR,PRC,CG,TS)   'Availability of capacity for commodity group CG'//;
 *-----------------------------------------------------------------------------
-* Dynamic UC variable bounds (UC_DYNBND user defined)
-  SET UC_DYNBND(UC_N,BD) 'Dynamic process-wise UC bounds' //;
+* Dynamic UC variable bounds (UC_DYNBND user-defined)
+  SET UC_DYNBND(UC_N,LIM)     'Dynamic process-wise UC bounds' //;
 *-----------------------------------------------------------------------------
 * Activity efficiency and dispatching options
   PARAMETERS
@@ -54,6 +53,10 @@ $ SET MX ,SEASON, WEEKLY, DAYNITE
   PARAMETER GR_XBND(R,ALLYEAR) 'Maximum level of net imports to / exports from region' //;
   PARAMETER GR_THMIN(R,LL,P) 'Thermal minimum level' //;
   PARAMETER GR_VARGEN(R,S,ITEM,BD) 'Variance in type of generation';
+*-----------------------------------------------------------------------------
+* Attributes for experimental ECB extension
+  PARAMETER COM_MSHGV(R,YEAR,C)        'Choices heterogeneity parameter' //;
+  PARAMETER NCAP_MSPRF(R,YEAR,C,P,LIM) 'Preference parameters in choice' //;
 *-----------------------------------------------------------------------------
 * Predefined items
   SET ALL_REG / IMPEXP /;

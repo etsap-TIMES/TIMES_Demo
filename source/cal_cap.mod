@@ -1,7 +1,7 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2020 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
-* under the GNU General Public License v3.0 (see file LICENSE.txt).
+* under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=============================================================================*
 * CAL_CAP the code for capacity dependent commodity flows in EQ_COMxxx
 *   %1 - IN/OUT indicator
@@ -18,8 +18,7 @@
              %3
              (%VARV%_NCAP%4(R,V,P %SWS%)$T(V) + NCAP_PASTI(R,V,P)$PASTYEAR(V) %RCAPSUB%) *
 * Adjust for lagged commodity flows
-             (1 + (MAX(0, E(T)+1-MAX(B(V)+NCAP_ILED(R,V,P)+NCAP_CLAG(R,V,P,C,'%1'),B(T))) /
-                   MAX(.1,E(T)+1-MAX(B(V)+NCAP_ILED(R,V,P),B(T)))-1)$NCAP_CLAG(R,V,P,C,'%1'))
+             (1 + COEF_CIO(R,V,T,P,C,'%1'))
          ) +
 * CAL_NCOM: the term associated with invest/decommission commodities in the EQ_COMxxx
          SUM(RPC_CAPFLO(R,V,P,C)$COEF_%2COM(R,V,T,P,C), COEF_%2COM(R,V,T,P,C) *

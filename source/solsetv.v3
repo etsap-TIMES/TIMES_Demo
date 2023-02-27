@@ -1,5 +1,5 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2020 IEA-ETSAP.  Licensed under GPLv3 (see file LICENSE.txt).
+* Copyright (C) 2023 IEA-ETSAP.  Licensed under GPLv3 (see file NOTICE-GPLv3.txt).
 *-----------------------------------------------------------------------------
 * SOLSETV.VDA
 *
@@ -94,15 +94,17 @@ $IF DECLARED IRE $ABORT Illegal Declaration of Internal TIMES Identifier: IRE - 
 SCALAR IRE "Inter-regional Exchange (Exports & Imports)";
 SCALAR STG "Storage Processes (genuine)";
 SETS
-  DMD(R,PRC)   'Demand Devices'
-  PRE(R,PRC)   'Energy Processes'
-  PRW(R,PRC)   'Material Processes - Weight'
-  PRV(R,PRC)   'Material Processes - Volume'
-  REF(R,PRC)   'Refineries'
-  ELE(R,PRC)   'Electric Power Plants'
-  CHP(R,PRC)   'Coupled Heat+Power Plants'
-  HPL(R,PRC)   'Heating Plants'
-  DISTR(R,PRC) 'Distribution Technologies'
+  DMD(R,P)   'Demand Devices'
+  PRE(R,P)   'Energy Processes'
+  PRW(R,P)   'Material Processes - Weight'
+  PRV(R,P)   'Material Processes - Volume'
+  REF(R,P)   'Refineries'
+  ELE(R,P)   'Electric Power Plants'
+  CHP(R,P)   'Coupled Heat+Power Plants'
+  HPL(R,P)   'Heating Plants'
+  DISTR(R,P) 'Distribution Technologies'
+  RENEW(R,P) 'Renewables Processes'
+  XTRACT(R,P)'Extraction Processes'
 ;
 * set the regional memebers of the reporting sets
   DMD(RP(R,P))   $= PRC_MAP(R,'DMD',P);
@@ -114,14 +116,20 @@ SETS
   CHP(RP(R,P))   $= PRC_MAP(R,'CHP',P);
   HPL(RP(R,P))   $= PRC_MAP(R,'HPL',P);
   DISTR(RP(R,P)) $= PRC_MAP(R,'DISTR',P);
+  RENEW(RP(R,P)) $= PRC_MAP(R,'RENEW',P);
+  XTRACT(RP(R,P))$= PRC_MAP(R,'XTRACT',P);
 
 SETS
   RES(R,COM)   'Residential Sector Demands'
   COMM(R,COM)  'Commercial Sector Demands'
   TRN(R,COM)   'Transporation Sector Demands'
   AGR(REG,COM) 'Agriculature Sector Demands'
-  NE(REG,COM)  'Non-energy Demands'
+  OTHD(R,COM)  'Other Demands'
   IND(REG,COM) 'Industrial Demands'
+  NE(REG,COM)  'Non-energy Demands'
+  NRGFOS(R,C)  'Fossil'
+  NRGREN(R,C)  'Renewable'
+  NRGSYN(R,C)  'Synthetic'
   NRGELC(ALL_R,C) 'Electricity'
   NRGHET(ALL_R,C) 'Heat'
 ;
@@ -130,11 +138,17 @@ SETS
   COMM(RC(R,C)) $= DEM_SMAP(R,'COM',C);
   TRN(RC(R,C))  $= DEM_SMAP(R,'TRN',C);
   AGR(RC(R,C))  $= DEM_SMAP(R,'AGR',C);
-  NE(RC(R,C))   $= DEM_SMAP(R,'NE',C);
   IND(RC(R,C))  $= DEM_SMAP(R,'IND',C);
+  OTHD(RC(R,C)) $= DEM_SMAP(R,'OTH',C);
+  NE(RC(R,C))   $= DEM_SMAP(R,'NE',C);
   NRGELC(NRG(R,C)) $= NRG_TMAP(R,'ELC',C);
   NRGHET(NRG(R,C)) $= NRG_TMAP(R,'LTHEAT',C);
   NRGHET(NRG(R,C)) $= NRG_TMAP(R,'HTHEAT',C);
+  NRGFOS(NRG(R,C)) $= NRG_TMAP(R,'FOSSIL',C);
+  NRGREN(NRG(R,C)) $= NRG_TMAP(R,'RENEN',C);
+  NRGREN(NRG(R,C)) $= NRG_TMAP(R,'FRERENEW',C);
+  NRGREN(NRG(R,C)) $= NRG_TMAP(R,'LIMRENEW',C);
+  NRGSYN(NRG(R,C)) $= NRG_TMAP(R,'SYNTH',C);
 
 *GG* set the REGional descriptions if not provided
 * Use the RC / RP masks
@@ -155,8 +169,8 @@ SETS
    UC_DYNBD(R,UC_N) 'Dynamic UC bound constraints';
   LOOP(R,UC_CONST('NONE',UC_N)$UC_R_SUM(R,UC_N)=YES);
   LOOP(RMKC(R,ITEM,C)$RPT_OPT('COMPRD','4'),UC_MARKS(R,ITEM)=YES);
-  REG_ACT(ALL_R,'ACT') = ALL_REG(ALL_R);
-  REG_ACT(NONSET,'ACT') = YES;
+  REG_ACT(ALL_R,%PGPRIM%) = ALL_REG(ALL_R);
+  REG_ACT(NONSET,%PGPRIM%) = YES;
   OTHCOM(CG) $= SUM(COM_PEAK(R,CG),1);
   OTHCOM(CUR) $= SUM(RDCUR(R,CUR),1);
 
