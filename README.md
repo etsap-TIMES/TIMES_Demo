@@ -6,7 +6,8 @@ The demo model (the GAMS input data files specifying the model) is in the subfol
 All the input data files are text files, usually generated from a database by a user shell,
 but they can also be created and edited with any text editor.
 
-The TIMES source code is in the subfolder Source (licensed under GPLv3).
+The TIMES source code is in the subfolder ```source``` (licensed under GPLv3).<br>
+The TIMES_Demo model data is in the subfolders ```model``` and ```model-ge``` (licensed under CC-BY-4.0).
 
 You can run the model with GAMS in the Model subfolder, using the following command:  
 >  GAMS rundemo
