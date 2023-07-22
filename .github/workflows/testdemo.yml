@@ -1,0 +1,22 @@
+name: Test Demo
+on: [release]
+defaults:
+  run:
+    shell: bash
+jobs:
+  Test-Demo-On-Engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          zip -r model.zip model source
+      - name: Submit demo job
+        uses: GAMS-dev/actions/run-job@v1
+        with:
+          url: ${{ secrets.ENGINE_URL }}
+          namespace: ${{ secrets.ENGINE_NS }}
+          username: ${{ secrets.ENGINE_USER }}
+          password: ${{ secrets.ENGINE_PASSWORD }}
+          run: 'demo12.run'
+          arguments: 'a=c,idir1=source,idir2=model,fileCase=2'
+          model_data: '${{ github.workspace }}/model.zip'
