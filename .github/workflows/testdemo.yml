@@ -1,5 +1,5 @@
 name: Test Demo
-on: [release]
+on: [workflow_dispatch]
 defaults:
   run:
     shell: bash
