@@ -11,7 +11,7 @@ $ IFI %GAMS.LP%==CBC $SET SOLVER LP=CBC NLP=CONOPT
 $ IFI %system.filesys%==MSNT $set GORUN cd /d %SYSTEM.FP% &&
 *------------------------------------------------------------------------------
 * Call GAMS with the RUN file, producing GDX with the same name
-$ hiddencall =gams %SYSTEM.FP%%RUNNAME%Base.run idir=%SYSTEM.FP%;%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%Base O=%SYSTEM.FP%%RUNNAME%Base.lst filecase=2 r=%SRC%\_times.g00 %SOLVER%
+$ hiddencall =gams %SYSTEM.FP%%RUNNAME%Base.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%Base O=%SYSTEM.FP%%RUNNAME%Base.lst filecase=2 r=%SRC%\_times.g00 %SOLVER%
 $ eval ERRLEV errorLevel
 $ IF errorLevel 1 $GOTO ERRBASE
 * Call the GDX2VEDA utility for producing results files
@@ -27,7 +27,7 @@ $ log --------------------------------------------------------------------------
 $ hiddencall ask T=Listbox  D="%RUNNAME%Base.lst -- GAMS Listing file|%RUNNAME%Base.gdx -- Composite GDX file|%RUNNAME%Base.vd* -- Results files|" M="See the output files in Folder: %SYSTEM.FP%" C="Run for %RUNNAME%Base has been completed" o=nul
 *------------------------------------------------------------------------------
 * Call GAMS with the RUN file, producing GDX with the same name
-$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-BaseRep.run idir=%SYSTEM.FP%;%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%MLF-BaseRep O=%SYSTEM.FP%%RUNNAME%MLF-BaseRep.lst filecase=2 r=%SRC%\_times.g00 %SOLVER%
+$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-BaseRep.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%MLF-BaseRep O=%SYSTEM.FP%%RUNNAME%MLF-BaseRep.lst filecase=2 r=%SRC%\_times.g00 %SOLVER%
 * Call the GDX2VEDA utility for producing results files
 $ hiddencall %GORUN% gdx2veda %SYSTEM.FP%%RUNNAME%MLF-BaseRep %SYSTEM.FP%%SRC%/times2veda.vdd %SYSTEM.FP%%RUNNAME%MLF-BaseRep
 $ onlisting
@@ -41,7 +41,7 @@ $ log --------------------------------------------------------------------------
 $ hiddencall ask T=Listbox  D="%RUNNAME%MLF-BaseRep.lst -- GAMS Listing file|%RUNNAME%MLF-BaseRep.gdx -- Composite GDX file|%RUNNAME%MLF-BaseRep.vd* -- Results files|" M="See the output files in Folder: %SYSTEM.FP%" C="Run for %RUNNAME%MLF-BaseRep has been completed" o=nul
 *------------------------------------------------------------------------------
 * Call GAMS with the RUN file, producing GDX with the same name
-$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-PolicyEx.run idir=%SYSTEM.FP%;%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%MLF-PolicyEx O=%SYSTEM.FP%%RUNNAME%MLF-PolicyEx.lst filecase=2 r=%SRC%\_times.g00 %SOLVER%
+$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-PolicyEx.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%MLF-PolicyEx O=%SYSTEM.FP%%RUNNAME%MLF-PolicyEx.lst filecase=2 r=%SRC%\_times.g00 %SOLVER%
 * Call the GDX2VEDA utility for producing results files
 $ hiddencall %GORUN% gdx2veda %SYSTEM.FP%%RUNNAME%MLF-PolicyEx %SYSTEM.FP%%SRC%/times2veda.vdd %SYSTEM.FP%%RUNNAME%MLF-PolicyEx
 $ onlisting
@@ -55,7 +55,7 @@ $ log --------------------------------------------------------------------------
 $ hiddencall ask T=Listbox  D="%RUNNAME%MLF-PolicyEx.lst -- GAMS Listing file|%RUNNAME%MLF-PolicyEx.gdx -- Composite GDX file|%RUNNAME%MLF-PolicyEx.vd* -- Results files|" M="See the output files in Folder: %SYSTEM.FP%" C="Run for %RUNNAME%MLF-PolicyEx has been completed" o=nul
 *------------------------------------------------------------------------------
 * Call GAMS with the RUN file, producing GDX with the same name
-$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-PolicyEx.run idir=%SYSTEM.FP%;%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx O=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx.lst filecase=2 --NONLP=NL r=%SRC%\_times.g00 %SOLVER%
+$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-PolicyEx.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx O=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx.lst filecase=2 --NONLP=NL r=%SRC%\_times.g00 %SOLVER%
 $ eval ERRLEV errorLevel
 $ IF errorLevel 1 $GOTO ERRNLP
 $ LABEL FINLP
@@ -78,7 +78,7 @@ $ stop
 $ label ERRNLP
 $ log --- Error - Probably Missing NLP Licence -- Trying Kestrel instead.
 $ hiddencall ask T=Listbox  D="Error in Demo12 PolicyExample NLP Benchmark run|GAMS Error code = %ERRLEV%|Probably CONOPT License Missing|Trying Kestrel now instead|" M="ERROR solving NLP Benchmark -- Trying Kestrel instead." C="ERROR in Run for %RUNNAME%NLF-PolicyEx" o=nul
-$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-PolicyEx.run idir=%SYSTEM.FP%;%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx O=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx.lst filecase=2 --NONLP=NL r=%SRC%\_times.g00 %SOLVER% --KESTREL=NLP
+$ hiddencall =gams %SYSTEM.FP%%RUNNAME%MLF-PolicyEx.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx O=%SYSTEM.FP%%RUNNAME%NLF-PolicyEx.lst filecase=2 --NONLP=NL r=%SRC%\_times.g00 %SOLVER% --KESTREL=NLP
 $ eval ERRLEV errorLevel
 $ IF %ERRLEV%==0 $GOTO FINLP
 $ hiddencall ask T=Listbox  D="Error in Demo12 PolicyExample NLP Benchmark run|GAMS Error code = %ERRLEV%|Both Local and Kestrel run failed|" M="ERROR! See the Listing file in Folder: %SYSTEM.FP%" C="ERROR in Run for %RUNNAME%NLF-PolicyEx" o=nul
