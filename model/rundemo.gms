@@ -9,7 +9,7 @@ $ SET GORUN ''
 $ IFI %system.filesys%==MSNT $set GORUN cd /d %SYSTEM.FP% &&
 *------------------------------------------------------------------------------
 * Call GAMS with the RUN file, producing GDX with the same name
-$ hiddencall %GORUN% gams %SYSTEM.FP%%RUNNAME%.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME% O=%SYSTEM.FP%%RUNNAME%.lst filecase=2 r=%SRC%\_times.g00
+$ hiddencall %GORUN% gams %SYSTEM.FP%%RUNNAME%.run idir1=%SYSTEM.FP% idir2=%SYSTEM.FP%%SRC% ps=0 gdx=%SYSTEM.FP%%RUNNAME% O=%SYSTEM.FP%%RUNNAME%.lst filecase=2 r=%SRC%/_times.g00
 * Call the GDX2VEDA utility for producing results files
 $ hiddencall %GORUN% gdx2veda %SYSTEM.FP%%RUNNAME% %SYSTEM.FP%%SRC%/times2veda.vdd %SYSTEM.FP%%RUNNAME%
 $ onlisting
