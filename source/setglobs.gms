@@ -97,7 +97,7 @@ $ LABEL SYSD
   SET RTPS_BD(R,ALLYEAR,P,S,BD) 'Multi-purpose work set'                //;
   SET CG_GRP(REG,PRC,CG,CG)     'Multi-purpose work set'                //;
   SET FSCK(REG,PRC,CG,C,CG)     'Multi-purpose work set'                //;
-  SET FSCKS(REG,PRC,CG,C,CG,S)  'Multi-purpose work set'                //;
+  SET FSCKS(REG,PRC,CG,C,CG,TS) 'Multi-purpose work set'                //;
   SET RPC_IREIO(R,P,C,IE,IO)    'Types of trade flows'                  //;
   SET RPC_LS(R,P,C)             'Load sifting control'                  //;
 * process types
@@ -173,7 +173,7 @@ $ LABEL SYSD
   PARAMETER COEF_ICOM(R,ALLYEAR,T,PRC,C)       'Commodity flow at investment time'      //;
   PARAMETER COEF_OCOM(R,ALLYEAR,T,PRC,C)       'Commodity flow at decommissioning time' //;
   PARAMETER COEF_CIO(R,ALLYEAR,T,P,C,IO)       'Capacity-related commodity in/out flows'//;
-  PARAMETER COEF_PTRAN(REG,ALLYEAR,PRC,CG,C,CG,S) 'Multiplier for EQ_PTRANS'            //;
+  PARAMETER COEF_PTRAN(REG,ALLYEAR,PRC,CG,C,CG,TS) 'Multiplier for EQ_PTRANS'           //;
   PARAMETER COEF_RPTI(R,ALLYEAR,P)             'Repeated investment cycles'             //;
   PARAMETER COEF_ILED(R,ALLYEAR,P)             'Investment lead time'                   //;
   PARAMETER COEF_PVT(R,T)                      'Present value of time in periods'       //;
@@ -227,7 +227,8 @@ $LABEL RESTOBJ
     RS_TSLVL(R,ALL_TS)  'Timeslice levels'
     TS_ARRAY(ALL_TS)    'Array for leveling parameter values across timeslices'
     STOA(ALL_TS)        'ORD Lag from each timeslice to ANNUAL'
-    STOAL(ALL_REG,TS)   'ORD Lag from the LVL of each timeslice to ANNUAL';
+    STOAL(ALL_REG,TS)   'ORD Lag from the LVL of each timeslice to ANNUAL'
+    BDSIG(LIM)          'Bound signum' / LO 1, UP -1 /;
 
 
 *-----------------------------------------------------------------------------
@@ -243,8 +244,8 @@ $LABEL RESTOBJ
   PARAMETER  YKVAL(ALLYEAR,ALLYEAR);
 
 * flags used in extrapolation
-  SET BACKWARD(ALLYEAR) //;
-  SET FORWARD(ALLYEAR)  //;
+  SET BACKWARD(YEAR) //;
+  SET FORWARD(YEAR)  //;
 * DM_YEAR is the union of the sets MODLYEAR and DATAYEAR
   SET DM_YEAR(ALLYEAR)  //;
 

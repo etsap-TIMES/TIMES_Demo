@@ -19,6 +19,7 @@ $ SETGLOBAL ECB YES
   SET COM_LIM  / (SET.REG).'_MSVIOL_'.N  /;
   SET RTC_MS(R,YEAR,C)              'Commodities with market sharing' // ;
   PARAMETER COEF_LMS(R,ALLYEAR,C,P) 'Logit Market Share coefficients' // ;
+  PARAMETER ECB_NCAPR(R,ALLYEAR,P)  'First pass LEC results' //;
 
 $ SET RESET 0
 $ BATINCLUDE fillparm COM_MSHGV R C ",'','','','',''"   T 'RTC(R,T,C)' 'GE 0'
@@ -32,8 +33,10 @@ $ BATINCLUDE fillparm NCAP_MSPRF R 'C,P,L' ",'','',''"  T 'RTP(R,T,P)' 'GE 0'
 * Complete flow controls for dummy
   OPTION TRACKPC < COEF_LMS, RVP < COEF_LMS, TRACKP < TRACKPC;
   TOP(TRACKP(R,P),'_MSVIOL_','IN') = YES;
+  RPC_NOFLO(TRACKP,'_MSVIOL_') = YES;
   RPCS_VAR(TRACKP(R,P),'_MSVIOL_',ANNUAL) = YES;
   RTPCS_VARF(RTP_VARA(R,T,P),'_MSVIOL_',ANNUAL) = YES;
+  IF(RPT_OPT('NCAP','1')<>1, RPT_OPT('NCAP','101')=ROUND(RPT_OPT('NCAP','1')); RPT_OPT('NCAP','1')=1);
 
 * Default values
   NCAP_MSPRF(R,T,C,P,L('N'))$((NOT NCAP_MSPRF(R,T,C,P,L))$COEF_LMS(R,T,C,P)) = 1;
@@ -43,4 +46,4 @@ $ BATINCLUDE fillparm NCAP_MSPRF R 'C,P,L' ",'','',''"  T 'RTP(R,T,P)' 'GE 0'
 * Initialize ceiling costs
   FLO_COST(R,DATAYEAR,P,C('_MSVIOL_'),ANNUAL,CUR)$TRACKP(R,P) $= NCAP_COST(R,DATAYEAR,P,CUR);
   FLO_DELIV(R,DATAYEAR,P,C('_MSVIOL_'),ANNUAL,CUR)$TRACKP(R,P) $= NCAP_FOM(R,DATAYEAR,P,CUR);
-  OPTION CLEAR=TRACKP, CLEAR=TRACKPC, CLEAR=PRC_YMAX, CLEAR=RVP;
+  OPTION CLEAR=TRACKP,CLEAR=TRACKPC,CLEAR=PRC_YMAX,CLEAR=RVP;
