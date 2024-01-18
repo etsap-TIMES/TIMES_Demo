@@ -2750,3 +2750,100 @@ initsys.mod   : Increased version number to 4.7.3
 setglobs.gms  : (1)
 coef_obj.mod  : (1)
 mod_vars.cli  : (2)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.7.4
+-----------------------------------------------------------------------------------------
+Date: 13-Oct-2023 [AL]: Maintenance release
+1) Fixed bug related to zero new capacities when deriving logit market shares
+2) Fixed bug related to zero SHAPE values for NCAP_CPX
+3) Cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.7.4
+ppmain.mod    : (3)
+coef_shp.mod  : (2)
+eqobjvar.mod  : (3)
+eqobjels.mod  : (3)
+eqobjvar.rpt  : (3)
+equ_ext.abs   : (3)
+rpt_ext.ecb   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.7.5
+-----------------------------------------------------------------------------------------
+Date: 28-Oct-2023 [AL]: Maintenance release
+1) Fixed divide by zero error in certain condition of PASTI with ILED within active horizon
+2) Added support for NCAP_ICOM for past investments
+3) Cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.7.5
+ppmain.mod    : (1)
+cal_cap.mod   : (2)
+bndmain.mod   : (3)
+bnd_stg.mod   : (3)
+initmty.vda   : (3)
+eqactups.vda  : (3)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.7.6
+-----------------------------------------------------------------------------------------
+Date: 15-Nov-2023 [AL]: Maintenance release
+1) Fixed bug in ECB extension when defining multiple markets with Logit choices
+2) Added stochastic support for flexible STS storage option (STSFLX)
+3) Cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.7.6
+maindrv.mod   : (3)
+setglobs.gms  : (3)
+eqstgtss.mod  : (2)
+eqdamage.mod  : (3)
+preshape.gms  : (3)
+solve.stp     : (3)
+prepret.dsc   : (3)
+recurrin.stc  : (3)
+ppm_ext.ecb   : (1)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.7.7
+-----------------------------------------------------------------------------------------
+Date: 27-Dec-2023 [AL]: Maintenance release
+1) Fixed divide by zero issue in the ECB extension
+2) Performance improvement for EQ_PEAK in large models
+3) Added optional output attribute for process units
+4) Cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.7.7
+initmty.mod   : (4)
+units.def     : (3)
+setglobs.gms  : (2)
+pp_lvlpk.mod  : (2)
+pp_shapr.mod  : (2)
+pp_reduce.red : (2)
+eqpeak.mod    : (2)
+cal_ire.mod   : (2)
+err_stat.mod  : (4)
+rpt_ext.ecb   : (1)
+solsetv.v3    : (3)
+
+-----------------------------------------------------------------------------------------
+TIMES Version 4.7.8
+-----------------------------------------------------------------------------------------
+Date: 19-Jan-2024 [AL]: Maintenance QA release
+1) Added QA checks against invalid attributes
+2) Improved topology check for auxiliary IRE flows
+3) Small performance/cosmetic improvements
+
+Modified files: (reason)
+initsys.mod   : Increased version number to 4.7.8
+ppmain.mod    : (1),(2)
+setglobs.gms  : (1)
+pp_lvlpk.mod  : (3)
+eqpeak.mod    : (3)
+cal_fflo.mod  : (3)
+pp_qack.mod   : (1)
+init_ext.vda  : (2)
+pp_prelv.vda  : (3)

@@ -1,5 +1,5 @@
 *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-* Copyright (C) 2000-2023 Energy Technology Systems Analysis Programme (ETSAP)
+* Copyright (C) 2000-2024 Energy Technology Systems Analysis Programme (ETSAP)
 * This file is part of the IEA-ETSAP TIMES model generator, licensed
 * under the GNU General Public License v3.0 (see file NOTICE-GPLv3.txt).
 *=========================================================================
@@ -7,6 +7,8 @@
 * %1 - optional variable label to jump
 *=========================================================================
 $ SETARGS X1 X2
+* --- FIXT Dump ---
+$ IF NOT SET FIXBOH $KILL REG_FIXT
 * --- DATA Dump ---
 $ IF NOT %DATAGDX%==YES $GOTO SYSD
 $ IF NOT ERRORFREE $GOTO SYSD
@@ -75,7 +77,7 @@ $ LABEL SYSD
   SET RPC_MARKET(R,P,C,IE)      'Market exchange process indicator'      //;
   SET RPC_PG(R,P,C)             'Commodities in the primary group'       //;
   SET RPC_SPG(R,P,C)            'Commodities in the shadow primary group'//;
-  SET RPCS_VAR(R,P,C,ALL_TS)    'The timeslices at which VAR_FLOs are to be created'//;
+  SET RPCS_VAR(R,P,C,ALL_TS)    'Timeslices at which VAR_FLOs are to be created'//;
   SET RPS_S1(R,P,ALL_TS)        'All timeslices at the PRC_TSL/COM_TSLspg'//;
   SET RPS_S2(R,P,ALL_TS)        'All timeslices at/above PRC_TSL/COM_TSLspg'//;
   SET RPS_PRCTS(R,P,ALL_TS)     'All timeslices at/above the PRC_TSL'    //;
@@ -89,10 +91,11 @@ $ LABEL SYSD
   SET RTPCS_VARF(ALL_REG,ALLYEAR,P,C,ALL_TS) 'The VAR_FLOs control set'  //;
   SET RTP_VARA(R,ALLYEAR,P)     'The VAR_ACT control set'                //;
   SET RTP_VARP(R,T,P)           'RTPs that have a VAR_CAP'               //;
-  SET RTP_VINTYR(ALL_REG,ALLYEAR,ALLYEAR,PRC) 'v/t years when vintaging involved'//;
+  SET RTP_VINTYR(REG,ALLYEAR,ALLYEAR,PRC) 'v/t years according to vintaging'//;
   SET RTP_TT(R,YEAR,T,PRC)      'Retrofit control periods'               //;
   SET RVP(R,ALLYEAR,P)          'ALIAS(RTP) for Process/time'            //;
   SET RTP_CAPYR(R,YEAR,YEAR,P)  'Capacity vintage years'                 //;
+  SET RTP_ISHPR(REG,ALLYEAR,PRC)'Attribute existence indicator'         //;
   SET RTP_CGC(REG,YEAR,P,CG,CG) 'Multi-purpose work set'                //;
   SET RTPS_BD(R,ALLYEAR,P,S,BD) 'Multi-purpose work set'                //;
   SET CG_GRP(REG,PRC,CG,CG)     'Multi-purpose work set'                //;
@@ -115,6 +118,7 @@ $ LABEL SYSD
   SET UC_GMAP_P(REG,UC_N,UC_GRPTYPE,PRC)         'Assigning processes to UC_GRP';
   SET UC_GMAP_U(ALL_R,UC_N,UC_N)                 'Assigning constraints to UC_GRP' //;
   SET UC_DYNBND(UC_N,LIM)                        'Dynamic process-wise UC bounds' //;
+  SET UC_QAFLO(J,UC_N,SIDE,R,P,C)                'QA_checks for UC FLO/IRE tuples'
   SET RC_CUMCOM(REG,COM_VAR,ALLYEAR,ALLYEAR,COM) 'Cumulative commodity PRD/NET';
   SET RPC_CUMFLO(REG,PRC,COM,ALLYEAR,ALLYEAR)    'Cumulative process flows';
 
@@ -140,6 +144,7 @@ $ LABEL SYSD
   SET BDLOX(BD) / LO, FX /;
   SET BDNEQ(BD) / LO, UP /;
   SET RP_PRC(R,P);
+  SET RPG_RED(R,P,CG,IO) //;
   SET RP_GRP(REG,PRC,CG);
   SET RP_CCG(REG,PRC,C,CG);
   SET RP_CGG(REG,PRC,C,CG,CG);
@@ -339,8 +344,8 @@ $IF NOT "%MX%%SCUM%%SW_STVARS%"=='%X1%%X1%%X1%' $%ControlAbort%: MX / SW_STVARS 
 $SETGLOBAL CAPJD '%X1%' SETGLOBAL CAPWD %X1%
 $IF NOT '%CAPJD%%CAPWD%'=='%X1%%X1%' $%ControlAbort%: CAPxD
 *
-$SETGLOBAL SWX '%X1%' SETGLOBAL SWTX %X1%
-$IF NOT "%SWX%%SWTX%"=='%X1%%X1%' $%ControlAbort%: SWX
+$SETGLOBAL SWX '%X1%' SETGLOBAL SWTX '%X1%' SETGLOBAL VARMAC %X1%
+$IF NOT "%SWX%%SWTX%%VARMAC%"=='%X1%%X1%%X1%' $%ControlAbort%: SWX
 $SETGLOBAL SWX ,'1'
 *
 $SET TMP '%CTST%' SETGLOBAL CTST %X1%
@@ -351,4 +356,5 @@ $SETGLOBAL CTST %TMP%
 $SETGLOBAL SW_TAGS %X1%
 $IF NOT "%SW_TAGS%"=='%X1%' $%ControlAbort%: SW_TAGS
 $IF NOT '%X1%'=='' $SETLOCAL X1 '' GOTO RESET
+$SETGLOBAL VARMAC 0==1
 *-------------------------------------------------------------------------
